@@ -35,7 +35,12 @@ def generate_message(lead: Lead) -> Lead:
         return lead
 
     try:
-        data = json.loads(result.stdout.strip())
+        import re
+        raw = result.stdout.strip()
+        match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', raw)
+        if match:
+            raw = match.group(1).strip()
+        data = json.loads(raw)
         lead.canal = data.get("canal", canal)
         lead.mensagem = data.get("mensagem", "")
     except json.JSONDecodeError:

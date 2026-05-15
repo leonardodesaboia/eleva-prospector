@@ -14,15 +14,15 @@ def diagnose_lead(lead: Lead) -> Lead:
         f"- Instagram: {'sem perfil' if not lead.instagram_handle else '@' + lead.instagram_handle}\n"
         f"- Score de dor digital: {lead.score_dor}/10\n\n"
         f"{PACOTES_ELEVA}\n\n"
-        f"Retorne APENAS JSON válido, sem markdown ou texto extra:\n"
-        '{{\n'
+        'Retorne APENAS JSON válido, sem markdown ou texto extra:\n'
+        '{\n'
         '  "problema": "frase curta descrevendo o problema principal",\n'
         '  "servico_recomendado": "nome do serviço da lista acima",\n'
         '  "pacote": "nome do pacote",\n'
         '  "faixa_preco": "R$ X–R$ Y",\n'
         '  "angulo_venda": "gancho específico para este tipo de negócio",\n'
         '  "prioridade": "hot|warm|cold"\n'
-        '}}\n\n'
+        '}\n\n'
         f"Regras de prioridade:\n"
         f"- hot: score_dor >= 7 OU (sem site E rating > 4.5)\n"
         f"- warm: score_dor 4–6\n"
@@ -38,7 +38,12 @@ def diagnose_lead(lead: Lead) -> Lead:
         return lead
 
     try:
-        data = json.loads(result.stdout.strip())
+        raw = result.stdout.strip()
+        import re
+        match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', raw)
+        if match:
+            raw = match.group(1).strip()
+        data = json.loads(raw)
         lead.problema = data.get("problema", "")
         lead.servico_recomendado = data.get("servico_recomendado", "")
         lead.pacote = data.get("pacote", "")
