@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delta Barbearia — Fortaleza</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: #1a1a1a;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-image: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center top;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.66);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      padding: 0 24px;
+    }
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 6px 18px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(3.5rem, 10vw, 6.5rem);
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 40px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25D366;
+      color: #fff;
+      padding: 15px 32px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .btn-wa:hover { background: #1db954; transform: translateY(-1px); }
+    .btn-wa svg { flex-shrink: 0; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 88px 24px; }
+    .section-heading { text-align: center; margin-bottom: 56px; }
+    .section-heading h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; }
+    .section-heading p { color: #666; margin-top: 10px; font-size: 1rem; }
+
+    /* ── SERVIÇOS ── */
+    .servicos { background: #ffffff; }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #f7f7f7;
+      border: 1px solid #ebebeb;
+      border-radius: 14px;
+      padding: 36px 24px;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,0.08); }
+    .card-icon { font-size: 2.5rem; margin-bottom: 14px; }
+    .card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+    .card p { color: #666; font-size: 0.9rem; line-height: 1.6; }
+
+    /* ── DIFERENCIAIS ── */
+    .diferenciais { background: #f5f5f5; }
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 40px;
+    }
+    .diff-item { text-align: center; }
+    .diff-icon { font-size: 2.6rem; margin-bottom: 14px; }
+    .diff-item h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .diff-item p { color: #666; font-size: 0.92rem; }
+
+    /* ── DEPOIMENTOS ── */
+    .depoimentos { background: #ffffff; }
+    .depo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .depo-card {
+      border: 1px solid #e4e4e4;
+      border-radius: 14px;
+      padding: 32px 28px;
+    }
+    .stars { color: #f5a623; font-size: 1rem; letter-spacing: 2px; margin-bottom: 16px; }
+    .depo-card blockquote {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #444;
+      font-style: italic;
+      margin-bottom: 22px;
+    }
+    .depo-author { font-weight: 700; font-size: 0.9rem; }
+    .depo-city { color: #999; font-size: 0.82rem; margin-top: 2px; }
+
+    /* ── CTA FINAL ── */
+    .cta-final { background: #111111; color: #fff; text-align: center; }
+    .cta-final h2 { color: #fff; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; }
+    .cta-final p { color: rgba(255,255,255,0.65); margin-top: 12px; margin-bottom: 40px; font-size: 1rem; }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #25D366;
+      color: #fff;
+      padding: 18px 44px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .btn-cta:hover { background: #1db954; transform: scale(1.03); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a0a0a;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      padding: 20px 24px;
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── FLOATING BUTTON ── */
+    .wa-float {
+      position: fixed;
+      z-index: 9999;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      border-radius: 50%;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+      transition: transform 0.2s ease;
+    }
+    .wa-float:hover { transform: scale(1.12); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      section { padding: 64px 20px; }
+      .section-heading { margin-bottom: 36px; }
+      .diff-grid { gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-badge">Barbearia em Fortaleza</span>
+      <h1>Delta</h1>
+      <p class="hero-sub">Onde estilo e tradição se encontram. Cortes precisos, barba impecável — do jeito que você merece.</p>
+      <a href="https://wa.me/5585992179655" class="btn-wa">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agendar pelo WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="servicos">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Nossos Serviços</h2>
+        <p>Feito para quem leva a aparência a sério</p>
+      </div>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">✂️</div>
+          <h3>Corte Masculino</h3>
+          <p>Do clássico ao moderno — cortes precisos adaptados ao seu estilo e tipo de rosto.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🪒</div>
+          <h3>Barba</h3>
+          <p>Modelagem, acabamento e hidratação para uma barba sempre impecável.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💆</div>
+          <h3>Tratamento Capilar</h3>
+          <p>Hidratação profunda com produtos premium para cabelos mais saudáveis.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">👑</div>
+          <h3>Combo Delta</h3>
+          <p>Corte + Barba + Tratamento. A experiência completa da Delta em uma visita.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POR QUE NOS ESCOLHER -->
+  <section class="diferenciais">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Por Que Nos Escolher</h2>
+        <p>Mais do que uma barbearia — uma experiência</p>
+      </div>
+      <div class="diff-grid">
+        <div class="diff-item">
+          <div class="diff-icon">🏆</div>
+          <h3>Profissionais Experientes</h3>
+          <p>Nossa equipe é treinada para entregar precisão e cuidado em cada atendimento.</p>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icon">⚡</div>
+          <h3>Agendamento Rápido</h3>
+          <p>Sem fila de espera — marque seu horário pelo WhatsApp em poucos segundos.</p>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icon">🌟</div>
+          <h3>Ambiente Premium</h3>
+          <p>Um espaço pensado para você relaxar e sair se sentindo diferente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section class="depoimentos">
+    <div class="container">
+      <div class="section-heading">
+        <h2>O Que Dizem Nossos Clientes</h2>
+        <p>Quem veio uma vez, não troca mais</p>
+      </div>
+      <div class="depo-grid">
+        <div class="depo-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Melhor barbearia que já fui em Fortaleza. O corte ficou exatamente como eu queria e a barba então — impecável. Atendimento rápido e ambiente ótimo. Recomendo sem pensar."</blockquote>
+          <div class="depo-author">Carlos Mendonça</div>
+          <div class="depo-city">Fortaleza, CE</div>
+        </div>
+        <div class="depo-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Fui pela primeira vez achando que era igual a qualquer barbearia. Saí diferente — tanto no visual quanto na impressão. Profissionais atenciosos e resultado de qualidade. Voltei na semana seguinte."</blockquote>
+          <div class="depo-author">Rafael Souza</div>
+          <div class="depo-city">Fortaleza, CE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>Pronto para o próximo corte?</h2>
+      <p>Agende agora mesmo e venha conhecer a Delta. Rápido, fácil e sem complicação.</p>
+      <a href="https://wa.me/5585992179655" class="btn-cta">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Falar no WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    Esta é uma prévia conceitual criada pela Eleva — eleva.ce
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/5585992179655" class="wa-float" title="Falar no WhatsApp" aria-label="Falar no WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+</body>
+</html>
