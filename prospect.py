@@ -9,6 +9,7 @@ from agents.instagram import validate_instagram
 from agents.analyst import diagnose_lead
 from agents.messenger import generate_message
 from output import save_leads
+from output_obsidian import save_to_obsidian
 from config import DEFAULT_CIDADE, MIN_SCORE_DOR
 
 def main():
@@ -46,8 +47,14 @@ def main():
         json.dump([vars(l) for l in leads], f, ensure_ascii=False, indent=2)
 
     filepath = save_leads(leads)
+    notes = save_to_obsidian(leads)
+
     print(f"\n✓ Revisão pronta: {filepath}")
     print(f"  {len(leads)} leads com mensagem. Abra o arquivo e envie os aprovados.")
+    if notes:
+        print(f"\n✓ Segundo Cérebro: {len(notes)} notas criadas em 00 Captação/")
+        for n in notes:
+            print(f"  · {n}")
 
 if __name__ == "__main__":
     main()
