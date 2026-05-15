@@ -12,6 +12,14 @@ def _slugify(name: str) -> str:
     return name.strip()
 
 
+def _mockup_command_section(lead_name: str) -> str:
+    return (
+        "\n## Gerar mockup\n\n"
+        "Rode do diretório `prospector/` quando o lead responder:\n\n"
+        f'```bash\npython3 mockup.py --lead "{lead_name}"\n```\n'
+    )
+
+
 def _note_content(lead: Lead, today: str) -> str:
     emoji = PRIORITY_EMOJI.get(lead.prioridade, "")
     canal_label = lead.canal.replace("_", " ").title()
@@ -47,7 +55,7 @@ data: {today}
 
 - [ ] Enviar mensagem pelo {canal_label}
 - [ ] Follow-up em 3 dias se não responder
-
+{_mockup_command_section(lead.name)}
 ## Conexões
 
 - [[Eleva]]
@@ -71,3 +79,26 @@ def save_to_obsidian(leads: list[Lead]) -> list[str]:
         created.append(filename)
 
     return created
+
+
+def update_note_with_mockup(lead_name: str, data_date: str, png_name: str) -> str | None:
+    filename = f"(C) {data_date} Lead - {_slugify(lead_name)}.md"
+    note_path = CAPTACAO_DIR / filename
+
+    if not note_path.exists():
+        return None
+
+    content = note_path.read_text(encoding="utf-8")
+    mockup_section = f"\n## Mockup\n\n![[mockups/{png_name}]]\n"
+
+    if "## Mockup" in content:
+        content = re.sub(
+            r'\n## Mockup\n[\s\S]*?(?=\n## |\Z)',
+            mockup_section,
+            content
+        )
+    else:
+        content = content.rstrip() + "\n" + mockup_section
+
+    note_path.write_text(content, encoding="utf-8")
+    return filename
